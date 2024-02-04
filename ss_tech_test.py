@@ -4,6 +4,7 @@ The PokerMatic 9000
 
 AUTHOR: Steven Partlow <stevenpartlow@outlook.com>
 DATE: 01/02/2024
+VERSION: 1.0
 """
 
 def check_hand(hand):
