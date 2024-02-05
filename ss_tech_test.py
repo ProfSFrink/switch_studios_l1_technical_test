@@ -23,7 +23,7 @@ def check_hand(hand):
 
     for card in hand:
         # Iterate through the hand of cards
-        
+
         c = card[:-1] # 'c' will be the first two characters, the value of our card
         s = card[-1:].upper() # 's' will be the last character, the suit of our card,
                               # we convert to uppercase, to account if entered in lowercase
@@ -42,33 +42,33 @@ def check_hand(hand):
         # if not we raise an exception
         if s not in valid_suits:
             raise ValueError("Suit values must be entered as D, H, C or S!")
-            
+
         cards.append(c) # add the value of 'c' to card values list
         suits.append(s) # add the value of 's' to suits list
 
         # We now have two list of cards, one to of the values of our cards, and one
-        # of the suits of our cards. We are now going to create three variables, 
+        # of the suits of our cards. We are now going to create three variables,
         # which we need to see if our hand is a winner
 
     # We check to make sure the hand is five cards
 
     if len(cards) != 5 and len(suits) != 5:
         raise ValueError("Your hand has less than 5 cards!")
-    
+
     # Finally we have to check that the card values are within the valid ranges
-    # 0 is allowed as this represents aces, and nothing under 2 or over 13 
-    
+    # 0 is allowed as this represents aces, and nothing under 2 or over 13
+
     for c in cards:
         if int(c) != 0 and int(c) < 2 or int(c) > 13 :
-            raise ValueError("Card values must be entered as 0, or 2 to 13!")    
+            raise ValueError("Card values must be entered as 0, or 2 to 13!")
 
     # Firstly 'high_suit', which is the highest number of times any suit appears in our hand
 
     # For each indiviual suit in the 'suits' list we count the number of times
     # it occurs, we set 'high_suit' to be this value
-    
+
     high_suit = max([suits.count(a) for a in suits])
-    print("Max times one suit occurs is {}".format(high_suit))
+    print(f"Max times one suit occurs is {high_suit}")
 
     # Next 'dup_cards', which counts how many times each value occurs
 
@@ -78,7 +78,7 @@ def check_hand(hand):
     # [ADD MORE LATER]
 
     dup_cards = sorted([cards.count(a) for a in set(cards)])
-    print("There is {} unique values in the hand, with each occuring {}".format(len(dup_cards), dup_cards))
+    print(f"There is {len(dup_cards)} unique values in the hand, with each occuring {dup_cards}")
 
     # Next 'card_values', which is the numerical value of our cards
 
@@ -88,8 +88,8 @@ def check_hand(hand):
     # the numerical value of the card, this list is also sorted lowest to highest
 
     card_values = sorted([card_value[a]+2 for a in cards])
-            
-    print("The value of the cards in the hand is in ascending order is {}".format(card_values))
+
+    print(f"The value of the cards in the hand is in ascending order is {card_values}")
 
     # ============== CHECK FOR WINNING HANDS ============== #
 
@@ -99,13 +99,14 @@ def check_hand(hand):
         """
 
         # Check the difference between the last value of the hand and the first
-        diff = card_values[-1] - card_values[0] 
+        diff = card_values[-1] - card_values[0]
         # If the difference is four
         if diff == 4:
             return True # Then we have a straight as we sorted the cards earlier
         # If the difference is tweleve (hand starts with an ace)
         elif diff == 12:
-            # And the difference between the 2nd and last card is three (we have a 2 through 5 in our hand)
+            # And the difference between the 2nd and last card is three
+            # (we have a 2 through 5 in our hand)
             if card_values[-2] - card_values[0] == 3:
                 # Because we start with an ace and go through to five we have a straight
                 return True
@@ -149,9 +150,29 @@ def check_hand(hand):
         if check_for_straight(card_values):
             return "Straight!" # If it returns true then we have a STRAIGHT
         return "High Card!" # If false then we just have a HIGH CARD
-    
+
 if __name__ == "__main__":
     # Main program
+
+    import os # Import the os module
+    os.system('clear') # This will clear the screen
+
+    print("Welcome to the Pokermatic 9000")
+    print("Version 1.0\n")
+    print("The Pokermatic 9000 is program that must output the highest")
+    print("poker rank that exists in an input string that represents")
+    print("five standard playing cards.\n")
+
+    print("You should input the hand as a comma delimited string\n")
+    print("eg. 13H, 8C, 12D, 7H, 2S\n")
+    print("Aces are input as 0")
+    print("Ranks are 2 - 10, Jack is 11, Queen is 12, and King as 13")
+    print("D for Diamonds, C for Clubs, H for Hearts, and S for Spades\n")
+    print("Entering any other values will result in an error")
+    print("Entering the values in the wrong sequence will also result")
+    print("an error.\n")
+
+    print("There should always be a ', ' between each card.\n")
 
     # The card values are represented as 2 through 10 for the numerical cards
     # 0 for Aces, 11 for Jacks, 12 for Queens and 13 for Kings
@@ -182,25 +203,27 @@ if __name__ == "__main__":
     import re # Import the regular expressions module so we can check
           # the if the input string is in the correct comma delimted
           # format
-    
+
     # The pattern to check our comma delimted string against the pattern
     # ignore any alphanumeric characters before the first ", "
     # then checks that it only is a comma and a space, before the pattern
-    # continues, this ensures are values ar divided by only one command and
+    # continues, this ensures are values are divided by only one comma and
     # a space, we will validiate the rest of the input latter in the program
     pattern = re.compile(r"^(\w+)(,\s*\w+)*$")
 
-    # A function to compare an input string against the above defined pattern
-    # returing true or false depending on the outcome
     def check_valid_input(input_string):
-        if pattern.match(input_string) == None:
+        """ 
+        A function to compare an input string against the above defined pattern
+        returing true or false depending on the outcome        
+        """
+        if pattern.match(input_string) is None:
             return False
         else:
             return True
 
     # We have the variable Hand which is a set, this is so we cannot have duplicate values
 
-    hand = input("Enter multiple values\n")
+    hand = input("Enter player hand: ")
 
     # We check if the input hand has been entered correctly, if it has...
     if check_valid_input(hand):
@@ -208,15 +231,14 @@ if __name__ == "__main__":
         # as our marker to split, this then gives us a 'player_hand' list, with each element
         # being one of our playing cards
         player_hand = [str(x) for x in hand.split(', ')]
-        
+
         # Then pass it into our check_hand function, then output what is returned
 
-        output = f"With a hand of {hand}, Player has a {check_hand(player_hand)}!\n"
-        print(output)
+        print(f"With a hand of {hand}, Player has a {check_hand(player_hand)}!\n")
     else: # If the string is invalid we inform the user and raise an exception
         print("Invalid input hand")
-        print("The input string is not in the correct format, it must be a number,") 
+        print("The input string is not in the correct format, it must be a number,")
         print("then a letter representing a valid suit (C, D, S, H) then a comma,")
         print("then a space and repeated five times!")
         print("Example: 9H, 9C, 9D, 12H, 3C\n")
-        raise Exception ("Invalid input hand!")
+        raise ValueError ("Invalid input hand!")
