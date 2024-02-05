@@ -181,6 +181,13 @@ if __name__ == "__main__":
     # A list of winning hands, one for each winning type of poker hand
     # Each hand is in comma delimted string containing five playing cards
     # seperated by ","
+
+    # These lists are left over from when I was developing the program,
+    # I would feed these into the check_hand function one after the other
+    # to to check that the program was recognising the correct winning
+    # hands and erroring out correctly, you can see the code I used for
+    # this in the Jupyter noteboook
+
     winning_hands = [
         "13H, 8C, 12D, 7H, 2S", # A High card
          "0D, 2D, 3D, 4D, 5D", # Straight flush
