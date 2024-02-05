@@ -11,7 +11,7 @@ This is my submission of the Switch Studios technical test, for the position of 
 
 I have submitted this program as a Python script, I developed the program in Jupyter Notebook, as this made testing the program as I developed it easier, I've submitted the notebook in addition to the _.py_ script. I have fully commented all the code to explain the way the program solves the problem.
 
-I store the hand as a python list, while I did consider turning the cards in to objects for the purpose of this test, it added extra uneccesary steps to the program and seeing as the user specifies the hand of cards that we need to check, keeping the hand stored as a list made the most sense.
+I store the hand as a python list, while I did consider turning the cards in to objects for the purpose of this test, it added extra uneccesary steps to the program and seeing as the user specifies the hand of cards that we need to check, keeping the hand stored as a list made the most sense. See my Twenty-One game I developed in c-sharp for an example of a program that uses objects to represent playing cards [GitHub Link](https://github.com/ProfSFrink/c_sharp_portfolio/tree/master/TwentyOne).
 
 The program can idenifty all winning poker hands as specified in the project document so:
 
