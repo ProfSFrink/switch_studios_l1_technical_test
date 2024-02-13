@@ -5,6 +5,9 @@ The PokerMatic 9000
 AUTHOR: Steven Partlow <stevenpartlow@outlook.com>
 DATE: 01/02/2024
 VERSION: 1.0
+
+I have developed this program to follow the exact
+specification as in the inital document
 """
 
 def check_hand(hand):
@@ -13,6 +16,20 @@ def check_hand(hand):
     """
 
     # A dictionary to define numerical values to each of the card values
+    # this will assign a numerical values to the values stated in our
+    # input string, the zip function will use these key value pairs
+    # as a base
+    #
+    # card_value = {
+    # "2": 0, "3": 1, "4": 2, "5": 3, "6": 4, "7": 5, "8": 6, "9": 7,
+    # "10": 8, "11": 9, "12": 10, "13": 11, "0": 12
+    # }
+    #
+    # We use the zip method to match the string values from our comma
+    # delimted string, to a range of integers going from zero to 13,
+    # the values are off by 2 for now we will adjust this later,
+    # we now have a dictionary of k/v pairs of our hand of cards
+
     card_value = dict(zip('2 3 4 5 6 7 8 9 10 11 12 13 0'.split(), range(14)))
 
     # A list of strings, representing our valid suits
@@ -24,7 +41,7 @@ def check_hand(hand):
     for card in hand:
         # Iterate through the hand of cards
 
-        c = card[:-1] # 'c' will be the first two characters, the value of our card
+        c = card[:-1] # 'c' will be the first / second characters, the value of our card
         s = card[-1:].upper() # 's' will be the last character, the suit of our card,
                               # we convert to uppercase, to account if entered in lowercase
 
@@ -39,18 +56,18 @@ def check_hand(hand):
             raise TypeError("Card values must be entered as 0, or 2 to 13!")
 
         # We check that the value of s if one of the four suits and again
-        # if not we raise an exception
+        # if not we raise an exception, will also error if not a character
         if s not in valid_suits:
             raise ValueError("Suit values must be entered as D, H, C or S!")
 
         cards.append(c) # add the value of 'c' to card values list
         suits.append(s) # add the value of 's' to suits list
 
-        # We now have two list of cards, one to of the values of our cards, and one
-        # of the suits of our cards. We are now going to create three variables,
-        # which we need to see if our hand is a winner
+    # We now have two lists of cards, one to of the values of our cards, and one
+    # of the suits of our cards.
 
-    # We check to make sure the hand is five cards
+    # We check to make sure the hand is five cards, at the project document
+    # specifies this
 
     if len(cards) != 5 and len(suits) != 5:
         raise ValueError("Your hand has less than 5 cards!")
@@ -61,6 +78,9 @@ def check_hand(hand):
     for c in cards:
         if int(c) != 0 and int(c) < 2 or int(c) > 13 :
             raise ValueError("Card values must be entered as 0, or 2 to 13!")
+
+    # We are now going to create three variables,
+    # which we need to see if our hand is a winner
 
     # Firstly 'high_suit', which is the highest number of times any suit appears in our hand
 
@@ -74,18 +94,19 @@ def check_hand(hand):
 
     # For each card in the 'cards' list, we count how many times each value repeats,
     # the length of the list tells us how many individual values we have, this list
-    # is also sorted lowest to highest, we also convert the 'cards' list into a set
-    # [ADD MORE LATER]
+    # is also sorted lowest to highest
 
     dup_cards = sorted([cards.count(a) for a in set(cards)])
     print(f"There is {len(dup_cards)} unique values in the hand, with each occuring {dup_cards}")
 
     # Next 'card_values', which is the numerical value of our cards
 
-    # For each in the 'cards' list, we take the value in cards, which is a string
-    # value, we then look for that string value in our 'card_value' dictionary and
-    # take the index position of that value in the dictionary, we then use that as
-    # the numerical value of the card, this list is also sorted lowest to highest
+    # For each element in the 'cards' list, we take the value, which is a string
+    # value, we then use that string value in our 'card_value' dictionary as a key and
+    # take the matching value in the dictionary, we then use that as
+    # the numerical value of the card, when then add two on two the value from the dictionary
+    # here so the values now match, this list is also sorted lowest to highest.
+    # Going forward our aces will now be 14.
 
     card_values = sorted([card_value[a]+2 for a in cards])
 
@@ -103,12 +124,13 @@ def check_hand(hand):
         # If the difference is four
         if diff == 4:
             return True # Then we have a straight as we sorted the cards earlier
-        # If the difference is tweleve (hand starts with an ace)
+        # If the difference is tweleve (hand starts with a 2, ends with an Ace)
         elif diff == 12:
-            # And the difference between the 2nd and last card is three
+            # And the difference between the 2nd card and last card is 3
             # (we have a 2 through 5 in our hand)
             if card_values[-2] - card_values[0] == 3:
-                # Because we start with an ace and go through to five we have a straight
+                # Because we start with a 2 through to 5, end with an ace, we
+                # have a straight
                 return True
         return False
 
@@ -228,7 +250,7 @@ if __name__ == "__main__":
         else:
             return True
 
-    # We have the variable Hand which is a set, this is so we cannot have duplicate values
+    # We have the variable Hand which is a list
 
     hand = input("Enter player hand: ")
 
@@ -240,8 +262,10 @@ if __name__ == "__main__":
         player_hand = [str(x) for x in hand.split(', ')]
 
         # Then pass it into our check_hand function, then output what is returned
+        # the output is displayed using an f string
 
         print(f"With a hand of {hand}, Player has a {check_hand(player_hand)}!\n")
+
     else: # If the string is invalid we inform the user and raise an exception
         print("Invalid input hand")
         print("The input string is not in the correct format, it must be a number,")
